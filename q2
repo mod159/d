@@ -1,0 +1,119 @@
+mysql> create table movies(title varchar(30),director varchar(10),myear year(4),rating decimal(3,2));
+Query OK, 0 rows affected, 1 warning (0.09 sec)
+mysql> create table actors(actor varchar(20),ayear year(4));
+Query OK, 0 rows affected, 1 warning (0.28 sec)
+mysql> create table acts(actor varchar(20),title varchar(30));
+Query OK, 0 rows affected (0.15 sec)
+mysql> create table directors(director varchar(30),dyear year(4));
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+mysql> insert into movies values('fargo','coen','1996',8.2),('raising 
+arizona','coen','1987',7.6),('spiderman','raimi','2002',7.4),('wonder boys','hanson','2000',7.6);
+Query OK, 4 rows affected (0.23 sec)
+Records: 4 Duplicates: 0 Warnings: 0
+mysql> insert into actors 
+values('cage','1964'),('hanks','1956'),('maguire','1975'),('mcdormand','1957');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4 Duplicates: 0 Warnings: 0
+mysql> insert into acts values('cage','raising arizona'),('maguire','spiderman'),('maguire','wonder 
+boys'),('mcdormand','fargo'),('mcdormand','raising arizona'),('mcdormand','wonder boys');
+Query OK, 6 rows affected (0.03 sec)
+Records: 6 Duplicates: 0 Warnings: 0
+mysql> insert into directors values('coen','1954'),('hanson','1945'),('raimi','1959');
+Query OK, 3 rows affected (0.02 sec)
+Records: 3 Duplicates: 0 Warnings: 0
+mysql> select * from movies;
++-----------------+----------+-------+--------+
+| title | director | myear | rating |
++-----------------+----------+-------+--------+
+| fargo | coen | 1996 | 8.20 |
+| raising arizona | coen | 1987 | 7.60 |
+| spiderman | raimi | 2002 | 7.40 |
+| wonder boys | hanson | 2000 | 7.60 |
++-----------------+----------+-------+--------+
+4 rows in set (0.09 sec)
+mysql> select * from actors;
++-----------+-------+
+| actor | ayear |
++-----------+-------+
+| cage | 1964 |
+| hanks | 1956 |
+| maguire | 1975 |
+| mcdormand | 1957 |
++-----------+-------+
+4 rows in set (0.01 sec)
+mysql> select * from acts;
++-----------+-----------------+
+| actor | title |
++-----------+-----------------+
+| cage | raising arizona |
+| maguire | spiderman |
+| maguire | wonder boys |
+| mcdormand | fargo |
+| mcdormand | raising arizona |
+| mcdormand | wonder boys |
++-----------+-----------------+
+6 rows in set (0.00 sec)
+mysql> select * from directors;
++----------+-------+
+| director | dyear |
++----------+-------+
+| coen | 1954 |
+| hanson | 1945 |
+| raimi | 1959 |
++----------+-------+
+3 rows in set (0.00 sec)
+1)
+mysql> select * from movies where myear>'1997';
++-------------+----------+-------+--------+
+| title | director | myear | rating |
++-------------+----------+-------+--------+
+| spiderman | raimi | 2002 | 7.40 |
+| wonder boys | hanson | 2000 | 7.60 |
++-------------+----------+-------+--------+
+2 rows in set (0.03 sec)
+2)
+mysql> select * from movies where director='hanson' and myear>'1997';
++-------------+----------+-------+--------+
+| title | director | myear | rating |
++-------------+----------+-------+--------+
+| wonder boys | hanson | 2000 | 7.60 |
++-------------+----------+-------+--------+
+1 row in set (0.02 sec)
+3)
+mysql> select title,rating from movies;
++-----------------+--------+
+| title | rating |
++-----------------+--------+
+| fargo | 8.20 |
+| raising arizona | 7.60 |
+| spiderman | 7.40 |
+| wonder boys | 7.60 |
++-----------------+--------+
+4 rows in set (0.07 sec)
+4)
+mysql> select actor from actors union select director from directors;
++-----------+
+| actor |
++-----------+
+| cage |
+| hanks |
+| maguire |
+| mcdormand |
+| coen |
+| hanson |
+| raimi |
++-----------+
+7 rows in set (0.03 sec)
+5)
+mysql> select title,actor,director from movies natural join acts where movies.title=acts.title;
++-----------------+-----------+----------+
+| title | actor | director |
++-----------------+-----------+----------+
+| raising arizona | cage | coen |
+| spiderman | maguire | raimi |
+| wonder boys | maguire | hanson |
+| fargo | mcdormand | coen |
+| raising arizona | mcdormand | coen |
+| wonder boys | mcdormand | hanson |
++-----------------+-----------+----------+
+6 rows in set (0.03 sec)

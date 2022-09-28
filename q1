@@ -1,0 +1,230 @@
+mysql> use demo1;
+Database changed
+mysql> create table salesman(salesman_id integer primary key, name varchar(20),city varchar(20), 
+commission varchar(20));
+Query OK, 0 rows affected (0.04 sec)
+mysql> create table customer(customer_id integer primary key,cust_name varchar(20),city 
+varchar(20), grade integer);
+Query OK, 0 rows affected (0.04 sec)
+mysql> alter table customer add column salesman_id int;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+mysql> create table customer1(customer_id integer primary key,cust_name varchar(20),city 
+varchar(20),grade integer, salesman_id integer);
+Query OK, 0 rows affected (0.04 sec)
+mysql> alter table customer add constraint fk_salary foreign key (salesman_id) references 
+salesman(salesman_id);
+Query OK, 0 rows affected (0.08 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+mysql> create table orders(ord_no integer primary key,purchase_amt decimal(10,2),order_date 
+date,customer_id integer, salesman_id integer);
+Query OK, 0 rows affected (0.04 sec)
+mysql> alter table orders add constraint fk_cus foreign key (customer_id) references 
+customer1(customer_id);
+Query OK, 0 rows affected (0.07 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+mysql> alter table orders add constraint fk_sal1 foreign key(salesman_id) references 
+salesman(salesman_id);
+Query OK, 0 rows affected (0.07 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+mysql> describe salesman;
++-------------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| salesman_id | int | NO | PRI | NULL | |
+| name | varchar(20) | YES | | NULL | |
+| city | varchar(20) | YES | | NULL | |
+| commission | varchar(20) | YES | | NULL | |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.04 sec)
+mysql> describe customer1;
++-------------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| customer_id | int | NO | PRI | NULL | |
+| cust_name | varchar(20) | YES | | NULL | |
+| city | varchar(20) | YES | | NULL | |
+| grade | int | YES | | NULL | |
+| salesman_id | int | YES | | NULL | |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+mysql> describe orders;
++--------------+---------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++--------------+---------------+------+-----+---------+-------+
+| ord_no | int | NO | PRI | NULL | |
+| purchase_amt | decimal(10,2) | YES | | NULL | |
+| order_date | date | YES | | NULL | |
+| customer_id | int | YES | MUL | NULL | |
+| salesman_id | int | YES | MUL | NULL | |
++--------------+---------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+mysql> insert into salesman values(1000,'John','Banglore','25%');
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into salesman values(2000,'Ravi','Banglore','20%');
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into salesman values(3000,'Kumar','Mysore','15%');
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into salesman values(4000,'Smith','Delhi','30%');
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into salesman values(5000,'Harsha','Hyderabad','15%');
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into customer1 values(10,'Preethi','Banglore',100,1000);
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into customer1 values(11,'Vivek','Manglore',300,1000);
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into customer1 values(12,'Bhaskar','Chennai',400,2000);
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into customer1 values(13,'Chetan','Banglore',200,3000);
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into customer1 values(14,'Mamatha','Banglore',400,3000);
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into orders values(50,5000,'2017-05-04',10,1000);
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into orders values(51,450,'2017-01-20',10,2000);
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into orders values(52,1000,'2017-02-24',13,2000);
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into orders values(53,550,'2017-04-13',14,3000);
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into orders values(54,3500,'2017-04-17',12,2000);
+Query OK, 1 row affected (0.02 sec)
+mysql> select * from salesman;
++-------------+--------+-----------+------------+
+| salesman_id | name | city | commission |
++-------------+--------+-----------+------------+
+| 1000 | John | Banglore | 25% |
+| 2000 | Ravi | Banglore | 20% |
+| 3000 | Kumar | Mysore | 15% |
+| 4000 | Smith | Delhi | 30% |
+| 5000 | Harsha | Hyderabad | 15% |
++-------------+--------+-----------+------------+
+5 rows in set (0.00 sec)
+mysql> select * from customer1;
++-------------+-----------+----------+-------+-------------+
+| customer_id | cust_name | city | grade | salesman_id |
++-------------+-----------+----------+-------+-------------+
+| 10 | Preethi | Banglore | 100 | 1000 |
+| 11 | Vivek | Manglore | 300 | 1000 |
+| 12 | Bhaskar | Chennai | 400 | 2000 |
+| 13 | Chetan | Banglore | 200 | 3000 |
+| 14 | Mamatha | Banglore | 400 | 3000 |
++-------------+-----------+----------+-------+-------------+
+5 rows in set (0.00 sec)
+mysql> select * from orders;
++--------+--------------+------------+-------------+-------------+
+| ord_no | purchase_amt | order_date | customer_id | salesman_id |
++--------+--------------+------------+-------------+-------------+
+| 50 | 5000.00 | 2017-05-04 | 10 | 1000 |
+| 51 | 450.00 | 2017-01-20 | 10 | 2000 |
+| 52 | 1000.00 | 2017-02-24 | 13 | 2000 |
+| 53 | 550.00 | 2017-04-13 | 14 | 3000 |
+| 54 | 3500.00 | 2017-04-17 | 12 | 2000 |
++--------+--------------+------------+-------------+-------------+
+5 rows in set (0.00 sec)
+mysql> select grade, count(distinct customer_id) from customer1 group by grade having grade > 
+(select avg(grade) from customer1 where city = 'Banglore');
++-------+-----------------------------+
+| grade | count(distinct customer_id) |
++-------+-----------------------------+
+| 300 | 1 |
+| 400 | 2 |
++-------+-----------------------------+
+2 rows in set (0.03 sec)
+mysql> select salesman_id,name from salesman a where 1<(select count(*) from customer1 where 
+salesman_id = a.salesman_id);
++-------------+-------+
+| salesman_id | name |
++-------------+-------+
+| 1000 | John |
+| 3000 | Kumar |
++-------------+-------+
+2 rows in set (0.02 sec)
+mysql> select salesman.salesman_id,name,cust_name,commission from salesman,customer1 where 
+salesman.city = customer1.city union select salesman_id,name,'no match',commission from 
+salesman where not city = any (select city from customer1) order by 2 desc;
++-------------+--------+-----------+------------+
+| salesman_id | name | cust_name | commission |
++-------------+--------+-----------+------------+
+| 4000 | Smith | no match | 30% |
+| 2000 | Ravi | Preethi | 20% |
+| 2000 | Ravi | Chetan | 20% |
+| 2000 | Ravi | Mamatha | 20% |
+| 3000 | Kumar | no match | 15% |
+| 1000 | John | Preethi | 25% |
+| 1000 | John | Chetan | 25% |
+| 1000 | John | Mamatha | 25% |
+| 5000 | Harsha | no match | 15% |
++-------------+--------+-----------+------------+
+9 rows in set (0.00 sec)
+mysql> create view elitsalesman as select b.order_date,a.salesman_id,a.name from salesman 
+a,orders b,orders c where a.salesman_id = b.salesman_id and b.purchase_amt = (select 
+max(purchase_amt) from orders c where c.order_date = b.order_date);
+Query OK, 0 rows affected (0.01 sec)
+mysql> select * from elitsalesman;
++------------+-------------+-------+
+| order_date | salesman_id | name |
++------------+-------------+-------+
+| 2017-04-17 | 2000 | Ravi |
+| 2017-04-13 | 3000 | Kumar |
+| 2017-02-24 | 2000 | Ravi |
+| 2017-01-20 | 2000 | Ravi |
+| 2017-05-04 | 1000 | John |
+| 2017-04-17 | 2000 | Ravi |
+| 2017-04-13 | 3000 | Kumar |
+| 2017-02-24 | 2000 | Ravi |
+| 2017-01-20 | 2000 | Ravi |
+| 2017-05-04 | 1000 | John |
+| 2017-04-17 | 2000 | Ravi |
+| 2017-04-13 | 3000 | Kumar |
+| 2017-02-24 | 2000 | Ravi |
+| 2017-01-20 | 2000 | Ravi |
+| 2017-05-04 | 1000 | John |
+| 2017-04-17 | 2000 | Ravi |
+| 2017-04-13 | 3000 | Kumar |
+| 2017-02-24 | 2000 | Ravi |
+| 2017-01-20 | 2000 | Ravi |
+| 2017-05-04 | 1000 | John |
+| 2017-04-17 | 2000 | Ravi |
+| 2017-04-13 | 3000 | Kumar |
+| 2017-02-24 | 2000 | Ravi |
+| 2017-01-20 | 2000 | Ravi |
+| 2017-05-04 | 1000 | John |
++------------+-------------+-------+
+25 rows in set (0.00 sec)
+mysql> select distinct order_date,salesman_id,name from elitsalesman order by salesman_id;
++------------+-------------+-------+
+| order_date | salesman_id | name |
++------------+-------------+-------+
+| 2017-05-04 | 1000 | John |
+| 2017-04-17 | 2000 | Ravi |
+| 2017-02-24 | 2000 | Ravi |
+| 2017-01-20 | 2000 | Ravi |
+| 2017-04-13 | 3000 | Kumar |
++------------+-------------+-------+
+5 rows in set (0.00 sec)
+mysql> delete from orders where salesman_id = 1000;
+Query OK, 1 row affected (0.02 sec)
+mysql> delete from salesman where salesman_id = 1000;
+Query OK, 1 row affected (0.02 sec)
+mysql> select * from salesman;
++-------------+--------+-----------+------------+
+| salesman_id | name | city | commission |
++-------------+--------+-----------+------------+
+| 2000 | Ravi | Banglore | 20% |
+| 3000 | Kumar | Mysore | 15% |
+| 4000 | Smith | Delhi | 30% |
+| 5000 | Harsha | Hyderabad | 15% |
++-------------+--------+-----------+------------+
+4 rows in set (0.00 sec)
+mysql> select * from orders;
++--------+--------------+------------+-------------+-------------+
+| ord_no | purchase_amt | order_date | customer_id | salesman_id |
++--------+--------------+------------+-------------+-------------+
+| 51 | 450.00 | 2017-01-20 | 10 | 2000 |
+| 52 | 1000.00 | 2017-02-24 | 13 | 2000 |
+| 53 | 550.00 | 2017-04-13 | 14 | 3000 |
+| 54 | 3500.00 | 2017-04-17 | 12 | 2000 |
++--------+--------------+------------+-------------+-------------+
+4 rows in set (0.00 sec)
+mysql>

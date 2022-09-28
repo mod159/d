@@ -1,0 +1,156 @@
+mysql> create table stud(student_roll varchar(10) primary key,fname varchar(20) not null,mname 
+varchar(20),lname varchar(20) not null,address varchar(30),city varchar(15),state 
+varchar(20),mobile_no int(15) not null,branch varchar(20),college_name varchar(25));
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+mysql> insert into stud 
+values('a1','andrew','j','garfield','broadway','la','california',31226549,'cs','mit');
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into stud values('a2','michael','j','jordan','fort 
+green','brooklyn','nyc',31226749,'cs','mit');
+Query OK, 1 row affected (0.01 sec)
+mysql> insert into stud values('a3','shaun','d','mendes','court 
+street','florence','alabama',31226759,'it','oxford');
+Query OK, 1 row affected (0.01 sec)
+mysql> insert into stud values('a4','cristian','d','pulisic','creek 
+street','ketchikan','alaska',31426759,'cs','oxford');
+Query OK, 1 row affected (0.01 sec)
+mysql> insert into stud values('a5','derek','d','rose','congress 
+street','ketchikan','alaska',31426959,'cs','xyz');
+Query OK, 1 row affected (0.01 sec)
+mysql> insert into stud values('a6','dennis','k','rodman','congress 
+street','tucson','arizona',31426059,'it','xyz');
+Query OK, 1 row affected (0.01 sec)
+mysql> insert into stud values('a7','scott','k','pippen','congress 
+street','tucson','arizona',31426059,'cs','uoc');
+Query OK, 1 row affected (0.01 sec)
+mysql> insert into stud values('a8','jeremy','r','west','court 
+street','florence','alabama',31226759,'it','oxford');
+Query OK, 1 row affected (0.01 sec)
+mysql> select * from stud;
++--------------+----------+-------+----------+-----------------+-----------+------------+-----------+--------+--------------+
+| student_roll | fname | mname | lname | address | city | state | mobile_no | branch 
+| college_name |
++--------------+----------+-------+----------+-----------------+-----------+------------+-----------+--------+--------------+
+| a1 | andrew | j | garfield | broadway | la | california | 31226549 | cs | mit 
+|
+| a2 | michael | j | jordan | fort green | brooklyn | nyc | 31226749 | cs | mit 
+|
+| a3 | shaun | d | mendes | court street | florence | alabama | 31226759 | it | 
+oxford |
+| a4 | cristian | d | pulisic | creek street | ketchikan | alaska | 31426759 | cs | oxford 
+|
+| a5 | derek | d | rose | congress street | ketchikan | alaska | 31426959 | cs | xyz 
+|
+| a6 | dennis | k | rodman | congress street | tucson | arizona | 31426059 | it | xyz 
+|
+| a7 | scott | k | pippen | congress street | tucson | arizona | 31426059 | cs | uoc 
+|
+| a8 | jeremy | r | west | court street | florence | alabama | 31226759 | it | 
+oxford |
++--------------+----------+-------+----------+-----------------+-----------+------------+-----------+--------+--------------+
+8 rows in set (0.01 sec)
+mysql> alter table stud
+ -> rename to student;
+Query OK, 0 rows affected (0.01 sec)
+mysql> create view s as select fname,city,college_name from student;
+Query OK, 0 rows affected (0.01 sec)
+mysql> select * from s;
++----------+-----------+--------------+
+| fname | city | college_name |
++----------+-----------+--------------+
+| andrew | la | mit |
+| michael | brooklyn | mit |
+| shaun | florence | oxford |
+| cristian | ketchikan | oxford |
+| derek | ketchikan | xyz |
+| dennis | tucson | xyz |
+| scott | tucson | uoc |
+| jeremy | florence | oxford |
++----------+-----------+--------------+
+8 rows in set (0.01 sec)
+mysql> create index i on student(fname,lname,state);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+mysql> show index from student;
++---------+------------+----------+--------------+--------------+-----------+-------------+----------+--------+------+---------
+---+---------+---------------+---------+------------+
+| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | 
+Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++---------+------------+----------+--------------+--------------+-----------+-------------+----------+--------+------+---------
+---+---------+---------------+---------+------------+
+| student | 0 | PRIMARY | 1 | student_roll | A | 8 | NULL | NULL | | 
+BTREE | | | YES | NULL |
+| student | 1 | i | 1 | fname | A | 8 | NULL | NULL | | BTREE | 
+| | YES | NULL |
+| student | 1 | i | 2 | lname | A | 8 | NULL | NULL | | BTREE | 
+| | YES | NULL |
+| student | 1 | i | 3 | state | A | 8 | NULL | NULL | YES | BTREE | 
+| | YES | NULL |
++---------+------------+----------+--------------+--------------+-----------+-------------+----------+--------+------+---------
+---+---------+---------------+---------+------------+
+4 rows in set (0.03 sec)
+mysql> show tables;
++--------------------+
+| Tables_in_practice |
++--------------------+
+| account |
+| actor |
+| actors |
+| acts |
+| atm |
+| book |
+| customers |
+| directors |
+| movies |
+| orders |
+| prac |
+| s |
+| salechanges |
+| sales |
+| salesman |
+| student |
+| tab1 |
+| tab2 |
+| v |
+| v1 |
+| v3 |
+| v5 |
+| vv |
+| x |
++--------------------+
+24 rows in set (0.01 sec)
+mysql> truncate table student;
+Query OK, 0 rows affected (0.03 sec)
+mysql> select * from student;
+Empty set (0.00 sec)
+mysql> drop table student;
+Query OK, 0 rows affected (0.02 sec)
+mysql> show tables;
++--------------------+
+| Tables_in_practice |
++--------------------+
+| account |
+| actor |
+| actors |
+| acts |
+| atm |
+| book |
+| customers |
+| directors |
+| movies |
+| orders |
+| prac |
+| s |
+| salechanges |
+| sales |
+| salesman |
+| tab1 |
+| tab2 |
+| v |
+| v1 |
+| v3 |
+| v5 |
+| vv |
+| x |
++--------------------+
+23 rows in set (0.00 sec)
